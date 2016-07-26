@@ -23,7 +23,7 @@ def get_data1(date_parser=date_parser):
 def build_q1a(df):
     x_data = df.index
     y_data = df
-    plot = figure(x_axis_type="datetime", width=1400, height=300,
+    plot = figure(x_axis_type="datetime", width=1250, height=300,
                   tools="pan,xwheel_zoom,box_zoom,reset,resize",
                   title="Vehicle Trend")
     plot.grid.grid_line_alpha = 0.3
