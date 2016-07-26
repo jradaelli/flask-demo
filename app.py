@@ -3,6 +3,8 @@ from bokeh.embed import components
 
 from plots import *
 from bokeh.util.string import encode_utf8
+# import gunicorn
+import datetime as dt
 
 
 app = Flask(__name__)
@@ -42,8 +44,10 @@ def render_q12(df=df):
     plot1 = build_q1b(df)
     number = build_q2a(df)
     script1, div1 = components(plot1)
+    surveydt = dt.datetime.utcnow() - dt.timedelta(hours=4)
+    surveydt = surveydt.strftime("%Y-%m-%d %H:%M:%S")
     html = render_template('graph2.html', script1=script1, div1=div1,
-                           counter=number,
+                           counter=number, surveydt=surveydt,
                            title='Integrating Live Data')
     return encode_utf8(html)
 
