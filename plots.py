@@ -2,6 +2,27 @@ from bokeh.plotting import *
 import pandas as pd
 import os
 from bokeh.charts import Bar
+import requests
+
+
+def _flatten_dict(root_key, nested_dict, flattened_dict):
+    for key, value in nested_dict.iteritems():
+        next_key = root_key + "_" + key if root_key != "" else key
+        if isinstance(value, dict):
+            _flatten_dict(next_key, value, flattened_dict)
+        else:
+            flattened_dict[next_key] = value
+    return flattened_dict
+
+
+def nyc_current():
+    parameters = {'key': 'c6bdf3a7-b571-4f9a-8892-85528b0ae48f'}
+    MTA_API_BASE = """http://api.prod.obanyc.com/api/siri/
+    vehicle-monitoring.json"""
+    resp = requests.get(MTA_API_BASE, params=parameters).json()
+    info = resp['Siri']['ServiceDelivery'][
+        'VehicleMonitoringDelivery'][0]['VehicleActivity']
+    return pd.DataFrame([_flatten_dict('', i, {}) for i in info])
 
 
 def date_parser(u):
@@ -41,3 +62,12 @@ def build_q1b(df):
                xlabel="Hours", ylabel="Mean Vehicle",
                title="Vehicle Mean per hour", legend=None)
     return plot
+
+
+def build_q2a(df):
+    df_rt = nyc_current()
+    routes = pd.DataFrame(df.route_id.unique())
+    final_df = df_rt.merge(routes,
+                           left_on="MonitoredVehicleJourney_PublishedLineName",
+                           right_on=0, how='inner')
+    return len(final_df)

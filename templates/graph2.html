@@ -24,23 +24,25 @@
 <body>
 
     <header id="top" class="header">
-        <div class="text-vertical-center" style="background: #0066cc; color: white;">
+        <div class="text-vertical-center" style="background: #0066cc;color: white;">
             <h1>{{title}}</h1>
         </div>
     </header>
 
-    <div style="width: 20%; display: block;">
+    <div style="width: 40%; display: inline-block;vertical-align: middle;">
 
-        {{ div | safe }}
-        {{ script | safe }}
+        <div class="text-vertical-center" style="vertical-align: middle;">
+            <h2 ALIGN="CENTER">{{counter}}</h2>
+            <h3 ALIGN="CENTER">Number of Bus currently on the road</h3>
+        </div>
 
     </div>
 
-    <div style="width: 20%; display: block;">
+    <div style="width: 20%; display: inline-block;
+    vertical-align: middle;">
 
-        {{ div2 | safe }}
-        {{ script2 | safe }}
-
+        {{ div1 | safe }}
+        {{ script1 | safe }}
 
     </div>
 

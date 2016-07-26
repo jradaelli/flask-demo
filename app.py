@@ -10,6 +10,7 @@ app = Flask(__name__)
 global df
 df = get_data1()
 
+
 @app.route('/')
 def main():
     return redirect('/index')
@@ -34,6 +35,18 @@ def render_q1a(df=df):
                            script2=script2, div2=div2,
                            title='Plot Some Data')
     return encode_utf8(html)
+
+
+@app.route('/question2')
+def render_q12(df=df):
+    plot1 = build_q1b(df)
+    number = build_q2a(df)
+    script1, div1 = components(plot1)
+    html = render_template('graph2.html', script1=script1, div1=div1,
+                           counter=number,
+                           title='Integrating Live Data')
+    return encode_utf8(html)
+
 
 if __name__ == '__main__':
     app.run(port=33507)
