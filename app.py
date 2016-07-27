@@ -43,10 +43,13 @@ def render_q1a(df=df):
 def render_q12(df=df):
     plot1 = build_q1b(df)
     number = build_q2a(df)
+    plot2 = build_q2b(df)
     script1, div1 = components(plot1)
+    script2, div2 = components(plot2)
     surveydt = dt.datetime.utcnow() - dt.timedelta(hours=4)
     surveydt = surveydt.strftime("%Y-%m-%d %H:%M:%S")
     html = render_template('graph2.html', script1=script1, div1=div1,
+                           script2=script2, div2=div2,
                            counter=number, surveydt=surveydt,
                            title='Integrating Live Data')
     return encode_utf8(html)

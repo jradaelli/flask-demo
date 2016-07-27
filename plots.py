@@ -3,6 +3,7 @@ import pandas as pd
 import os
 from bokeh.charts import Bar
 import requests
+from bokeh.charts import BoxPlot
 
 
 def _flatten_dict(root_key, nested_dict, flattened_dict):
@@ -71,3 +72,16 @@ def build_q2a(df):
                            left_on="MonitoredVehicleJourney_PublishedLineName",
                            right_on=0, how='inner')
     return len(final_df)
+
+
+def build_q2b(df):
+    df['hours'] = df.index.hour
+    df = df.groupby(['service_date', 'hours', 'route_id'],
+                    as_index=False)['vehicle_id'].count()
+    df = df.groupby(['hours', 'route_id'], as_index=False).mean()[
+        ['route_id', 'vehicle_id']]
+    p = BoxPlot(df, values='vehicle_id', width=1250, height=500,
+                label='route_id', title="Route ID",
+                color='#001a4d', ylabel='Number of Vehicle',
+                legend=None)
+    return p
