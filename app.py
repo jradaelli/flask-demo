@@ -68,7 +68,7 @@ def show_q3():
     return encode_utf8(html)
 
 
-@app.route('/positions_at_time.csv')
+@app.route('/question4.csv')
 def positions_at_time(archive=df):
     hours = int(request.args.get('hours', 12))
     minutes = int(request.args.get('minutes', 30))
@@ -86,6 +86,12 @@ def positions_at_time(archive=df):
 
     # JSON would work too, but CSV is actually better for D3
     return archive[lower_bound:upper_bound].to_csv()
+
+
+@app.route('/question4')
+def show_q4():
+    html = render_template('graph4.html')
+    return encode_utf8(html)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simple Leaflet Map with Heatmap </title>
+	<meta charset="utf-8" />
+	<link
+		rel="stylesheet"
+		href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"
+	/>
+</head>
+<body>
+	<div id="map" style="width: 1200px; height: 500px"></div>
+
+	<script
+	   src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js">
+	</script>
+
+	<script
+	   src="http://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js">
+	</script>
+	<script src="https://d3js.org/d3.v4.min.js" data-semver="4.0.0" data-require="d3@*"></script>
+	<script src="http://underscorejs.org/underscore-min.js"></script>
+	<script>
+
+		var map = L.map('map').setView([40.748, -73.985], 10);
+		mapLink =
+			'<a href="http://openstreetmap.org">OpenStreetMap</a>';
+		L.tileLayer(
+			'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: '&copy; ' + mapLink + ' Contributors',
+			maxZoom: 18,
+		}).addTo(map);
+
+
+
+		  // your code here
+
+      var points = [[0,0,]]
+			var heat=L.heatLayer(points).addTo(map);
+
+      function start() {
+
+			_.range(24).forEach(function(hours){
+				_.range(0, 60, 15).forEach(function(minutes){
+					// use AJAX to query bus positions at
+					var swipes = d3.csv("/question4.csv?hours=" + hours + '&minutes=' + minutes)
+					.get(function(error, rows){
+					  points = rows.map(function(r){
+						return  [
+						  +r.latitude,
+						  +r.longitude,
+						];
+						});
+          heat.setLatLngs(points);
+					});
+				});
+			});
+			setTimeout(start, 10000);
+		}
+
+		start();
+
+	</script>
+</body>
+</html>
