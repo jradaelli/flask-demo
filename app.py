@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 
-git
 @app.route('/')
 def main():
     return redirect('/dashboard')
