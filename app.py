@@ -19,7 +19,7 @@ def main():
 @app.route('/dashboard')
 def index():
     df = get_data()
-    logger.info("Data are loaded")
+    logger.info("Data are loaded"+str(len(df)))
     q1a = df.vehicle_id.groupby(df.index).count()
     plot = build_chart(q1a)
     script1, div1 = components(plot)
