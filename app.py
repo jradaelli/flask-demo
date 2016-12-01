@@ -23,7 +23,7 @@ def index():
     q1a = df.vehicle_id.groupby(df.index).count()
     plot = build_chart(q1a)
     script1, div1 = components(plot)
-    html = render_template('pages/index.html', script1=script1, div1=div1)
+    html = render_template('/pages/index.html', script1=script1, div1=div1)
     return encode_utf8(html)
 
 if __name__ == '__main__':
